@@ -1,0 +1,21 @@
+ <odoo>
+
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <button name="toggle_active" position="before">
+                <button class="oe_stat_button o_res_partner_tip_opp" 
+                        type="action"
+                        name="%(helpdesk_factorlibre.helpdesk_ticket_action)d"
+                        context="{'search_default_partner_id' : active_id}"
+                        icon="fa-ticket" >
+                    <field string="Tickets" name="count_tickets" widget="statinfo"/>
+                </button>
+            </button>
+
+        </field>
+    </record>
+
+</odoo>
