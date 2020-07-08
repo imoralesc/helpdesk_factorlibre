@@ -1,21 +1,5 @@
  <odoo>
 
-    <record id="helpdesk_ticket_tag_action" model="ir.actions.act_window">
-        <field name="name">Tickets Tags</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">helpdesk.ticket.tag</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-
-    <menuitem 
-        id="helpdesk_ticket_tags_menu" 
-        name="Ticket Tags" 
-        sequence="16"
-        action="helpdesk_ticket_tag_action"
-        parent="helpdesk_factorlibre.helpdesk_ticket_main_menu"
-    />
-
    <record id="ticket_tag_view_tree" model="ir.ui.view">
         <field name="name">helpdesk.ticket.tag.view.tree</field>
         <field name="model">helpdesk.ticket.tag</field>

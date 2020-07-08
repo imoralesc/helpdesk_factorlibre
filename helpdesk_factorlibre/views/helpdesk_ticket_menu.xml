@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Actions -->
+            <record id="helpdesk_ticket_dashboard_action" model="ir.actions.act_window">
+                <field name="name">Dashboard</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">helpdesk.ticket.team</field>
+                <field name="view_mode">kanban,tree,form</field>
+                <field name="view_type">form</field>
+            </record>
+
+            <record id="helpdesk_ticket_action" model="ir.actions.act_window">
+                <field name="name">Tickets</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">helpdesk.ticket</field>
+                <field name="view_mode">tree,kanban,form</field>
+                <field name="view_type">form</field>
+            </record>
+
+            <record id="helpdesk_ticket_team_action" model="ir.actions.act_window">
+                <field name="name">Teams</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">helpdesk.ticket.team</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_type">form</field>
+            </record>
+
+            <record id="helpdesk_ticket_tag_action" model="ir.actions.act_window">
+                <field name="name">Tickets Tags</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">helpdesk.ticket.tag</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+
+        
+
+            <!--Menus-->
+            <menuitem 
+                id="helpdesk_ticket_main_menu" 
+                name="Helpdesk" 
+                sequence="16"
+                action="helpdesk_ticket_action"
+            />
+
+            <menuitem 
+                id="helpdesk_ticket_dashboard_menu" 
+                name="Dashboard"
+                parent="helpdesk_ticket_main_menu" 
+                action="helpdesk_ticket_dashboard_action" 
+                sequence="1"
+            />
+
+            <menuitem 
+                id="helpdesk_ticket_menu" 
+                name="Tickets" 
+                sequence="10"
+                action="helpdesk_ticket_action"
+                parent="helpdesk_factorlibre.helpdesk_ticket_main_menu"
+            />
+
+            <menuitem 
+                id="helpdesk_ticket_tags_menu" 
+                name="Ticket Tags" 
+                sequence="45"
+                action="helpdesk_ticket_tag_action"
+                parent="helpdesk_factorlibre.helpdesk_ticket_main_menu"
+            />
+    </data>
+</odoo>

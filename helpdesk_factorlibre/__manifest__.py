@@ -17,6 +17,7 @@
         'views/helpdesk_ticket_tag_views.xml',
         'views/inherit_res_partners_views.xml',
         'views/helpdesk_ticket_stage_views.xml',
+        'views/helpdesk_ticket_menu.xml',
         'security/helpdesk_security.xml',
         'security/ir.model.access.csv',
         'data/helpdesk_data.xml'  ],

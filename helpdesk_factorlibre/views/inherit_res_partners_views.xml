@@ -9,15 +9,11 @@
             <button name="toggle_active" position="before">
                 <button class="oe_stat_button o_res_partner_tip_opp" 
                         type="action"
-                        name="%(helpdesk_factorlibre.helpdesk_ticket_action)d"
-                        context="{'search_default_partner_id' : active_id}"
+                        name="%(helpdesk_factorlibre.helpdesk_partner_tickets_action)d"
                         icon="fa-ticket" >
                     <field string="Tickets" name="count_tickets" widget="statinfo"/>
                 </button>
             </button>
-            <!--El context se lo pasamos al botón-->
-            <!--context="{'search_default_partner_id' : active_id}"-->
-
         </field>
     </record>
 
