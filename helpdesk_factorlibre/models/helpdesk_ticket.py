@@ -13,7 +13,10 @@ class HelpdeskTicket(models.Model):
     
     """Aqui se meten los metodos Default que vaya a utilizar, antes de los campos de la clase"""
     
-    numero_ticket = fields.Integer(
+    def _get_default_priority(self):
+        return "1"
+    
+    ticket_number = fields.Integer(
         string='Numero de ticket',
         required=True,
     )
@@ -27,15 +30,15 @@ class HelpdeskTicket(models.Model):
         string='Description',
     )
     
-    fecha_asignada = fields.Datetime(
+    assigned_date = fields.Datetime(
         string='Assigned Date',
-        compute='_compute_fecha_asignada',
+        compute='_compute_assigned_date',
         store=True,
     )
     
-    fecha_cierre = fields.Datetime(string='Closed Date')
+    closed_date = fields.Datetime(string='Closed Date')
     
-    prioridad = fields.Selection(selection=[
+    priority = fields.Selection(selection=[
         ('0', _('Baja')),
         ('1', _('Media')),
         ('2', _('Alta')),
@@ -70,6 +73,14 @@ class HelpdeskTicket(models.Model):
         comodel_name='helpdesk.ticket.tag',
     )
     
+    stage_id = fields.Many2one(
+        'helpdesk.ticket.stage',
+        string='Stage',
+    )
+    
+    
+    
+    
     @api.multi
     def assign_to_me(self):
         self.write({
@@ -87,8 +98,21 @@ class HelpdeskTicket(models.Model):
                 
     
     @api.depends('user_id')
-    def _compute_fecha_asignada(self):
-        self.fecha_asignada = fields.Datetime.now()
+    def _compute_assigned_date(self):
+        self.assigned_date = fields.Datetime.now()
+        
+    @api.model
+    def create(self,vals):
+        if vals.get("partner_id") and ("partner_name" not in vals or "partner_mail" not in vals):
+            partner = self.env["res.partner"].browse(vals["partner_id"])
+            vals.setdefault("customer_name", partner.name)
+            vals.setdefault("customer_email", partner.email)
+            
+        res = super().create(vals)
+        return res
+        
+    
+    
         
     
     

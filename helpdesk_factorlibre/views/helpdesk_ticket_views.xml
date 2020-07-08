@@ -12,19 +12,15 @@
 
 
 
-    <record id="helpdesk_ticket_action" model="ir.actions.act_window">
+    <!-- <record id="helpdesk_ticket_action" model="ir.actions.act_window">
         <field name="name">Tickets</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">helpdesk.ticket</field>
-        <field name="view_mode">tree,kanban,form</field>
-    </record>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_type">form</field>
+    </record> -->
 
-    <menuitem 
-        id="helpdesk_ticket_main_menu" 
-        name="Helpdesk" 
-        sequence="16"
-        action="helpdesk_ticket_action"
-    />
+    
 
 
    <record id="ticket_view_tree" model="ir.ui.view">
@@ -32,13 +28,14 @@
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="numero_ticket" />
+                <field name="ticket_number" />
                 <field name="name" />
                 <field name="description" />
+                <field name="stage_id"/>
                 <field name="user_id" />
-                <field name="prioridad" widget="priority" />
-                <field name="fecha_asignada" />
-                <field name="fecha_cierre" />
+                <field name="priority" widget="priority" />
+                <field name="assigned_date" />
+                <field name="closed_date" />
             </tree>
         </field>
     </record>
@@ -60,7 +57,7 @@
                 <div class="oe_title">
                     <h1 class="oe_title">
                         Ticket:
-                        <field name="numero_ticket" />
+                        <field name="ticket_number" />
                     </h1>
                     <h2 class="oe_title">
                         Titulo:
@@ -72,15 +69,15 @@
                 </group>
                 <group>
                     <group>
-                        <field name="fecha_asignada" />
-                        <field name="fecha_cierre" />
+                        <field name="assigned_date" />
+                        <field name="closed_date" />
                         <field name="partner_id" />
                         <field name="customer_name" />
                         <field name="customer_email" />
                     </group>
                     <group>
                         <field name="user_id" />
-                        <field name="prioridad" widget="priority" />
+                        <field name="priority" widget="priority" />
                         <field name="tag_ids" widget="many2many_tags" />
                     </group>
                 </group>
@@ -100,28 +97,41 @@
         <field name="name">helpdesk.ticket.view.kanban</field>
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
-            <kanban>
-                <field name="numero_ticket" />
+            <kanban class="o_kanban_small_column" archivable="false" default_group_by="stage_id">
+                <field name="ticket_number" />
                 <field name="name" />
                 <field name="description" />
-                <field name="prioridad" />
-                <field name="fecha_asignada" />
-                <field name="fecha_cierre" />
+                <field name="stage_id"/>
+                <field name="priority" />
+                <field name="assigned_date" />
+                <field name="closed_date" />
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color)} oe_kanban_content oe_kanban_global_click">
-                          
+                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
+                              <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                                  <span class="fa fa-ellipsis-v" aria-hidden="true"/>
+                              </a>
+                              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                  <li t-if="widget.editable"><a type="edit">Edit</a></li>
+                                  <li t-if="widget.deletable"><a type="delete">Delete</a></li>
+                                  <li class="divider"/>
+                                  <li>
+                                      <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                  </li>
+                              </ul>
+                          </div>
                             <div class="o_kanban_record_top">
                               <div class="o_kanban_record_headings">
                                 <strong class="o_kanban_record_title" style="font-weight: bold">
-                                Numero ticket: <field name="numero_ticket"/></strong> - <field name="name"/>
+                                Numero ticket: <field name="ticket_number"/></strong> - <field name="name"/>
                                 <small class="o_kanban_record_subtitle text-muted">
                                   <field name="partner_id"/>
                                 </small>
                               </div>
                             </div>
                             <div class="o_kanban_record_body">
-                              <field name="prioridad" widget="priority"/>
+                              <field name="priority" widget="priority"/>
                               <field name="tag_ids" widget="many2many_tags"/>
                             </div>
                             <div class="o_kanban_record_bottom">
@@ -149,13 +159,36 @@
                 <field name="name" />
                 <field name="description" />
                 <field name="partner_id" />
-                <filter string="Unattended" name="unattended" domain="[('user_id', '=', False)]"  />
                 <group expand="0" string="Group By">
                   <filter string="Partner" name="group_partner" domain="[]" context="{'group_by':'partner_id'}"/>
                   <filter string="User" name="group_user" domain="[]" context="{'group_by':'user_id'}"/>
+                  <filter string="Unattended" name="unattended" domain="[('user_id', '=', False)]"/>
                 </group>    
             </search>
         </field>
     </record>
+
+    <!-- Actions -->
+    <record id="helpdesk_ticket_action" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <record id="helpdesk_partner_tickets_action" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <menuitem 
+        id="helpdesk_ticket_main_menu" 
+        name="Helpdesk" 
+        sequence="16"
+        action="helpdesk_ticket_action"
+    />
 
 </odoo>

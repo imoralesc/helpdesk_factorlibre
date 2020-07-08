@@ -17,7 +17,7 @@ class HelpdeskTicketStage(models.Model):
     closed = fields.Boolean(
         string='Closed')
     mail_template_id = fields.Many2one(
-        'mail.template',
+        comodel_name='mail.template',
         string='Email Template',
         domain=[('model', '=', 'helpdesk.ticket')],
         help="If set an email will be sent to the "
@@ -29,7 +29,7 @@ class HelpdeskTicketStage(models.Model):
              "when there are no records in that stage "
              "to display.")
     company_id = fields.Many2one(
-        'res.company',
+        comodel_name='res.company',
         string="Company",
         default=lambda self: self.env['res.company']._company_default_get(
             'helpdesk.ticket')
