@@ -61,6 +61,11 @@ class HelpdeskTicket(models.Model):
         ondelete='restrict', 
     )
     
+    user_ids = fields.Many2many(
+        comodel_name='res.users',
+        related='team_id.user_ids',
+        string='Users')
+    
     partner_id = fields.Many2one(
         string='Customer',
         comodel_name='res.partner',
@@ -89,8 +94,9 @@ class HelpdeskTicket(models.Model):
         string='Kanban State'
     )
     
-    team_id = fields.Many2one('helpdesk.ticket.team')
-    
+    team_id = fields.Many2one(
+        'helpdesk.ticket.team'
+    )
     
     
     @api.multi

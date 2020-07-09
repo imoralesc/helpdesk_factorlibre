@@ -68,6 +68,8 @@
                     <field name="description" />
                 </group>
                 <group>
+                    <field name="team_id" options='{"always_reload": True}'/>
+                    <field name="user_ids" invisible="1" readonly="1" />
                     <group>
                         <field name="assigned_date" />
                         <field name="closed_date" />
@@ -177,6 +179,7 @@
                   <filter string="Partner" name="group_partner" domain="[]" context="{'group_by':'partner_id'}"/>
                   <filter string="User" name="group_user" domain="[]" context="{'group_by':'user_id'}"/>
                   <filter string="Unattended" name="unattended" domain="[('user_id', '=', False)]"/>
+                  <filter string="Team" domain="[]" context="{'group_by':'team_id'}"/>
                 </group>    
             </search>
         </field>

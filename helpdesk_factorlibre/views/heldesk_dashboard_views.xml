@@ -1,4 +1,34 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
 
+<record id="helpdesk_ticket_kanban_view" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.team.kanban</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard" create="0">
+                <field name="name"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary">
+                                            <a name="%(action_helpdesk_ticket_kanban_from_dashboard)d" type="action">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
 </odoo>
