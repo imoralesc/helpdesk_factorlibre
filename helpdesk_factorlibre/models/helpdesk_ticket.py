@@ -95,7 +95,16 @@ class HelpdeskTicket(models.Model):
     )
     
     team_id = fields.Many2one(
-        'helpdesk.ticket.team'
+        'helpdesk.ticket.team',
+        string='Team'
+    )
+    
+    closed = fields.Boolean(
+        related='stage_id.closed'
+    )
+    
+    unattended = fields.Boolean(
+        related='stage_id.unattended'
     )
     
     

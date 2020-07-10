@@ -49,7 +49,7 @@
                 id="helpdesk_ticket_main_menu" 
                 name="Helpdesk" 
                 sequence="16"
-                action="helpdesk_ticket_action"
+                action="helpdesk_ticket_dashboard_action"
             />
 
             <menuitem 
@@ -69,14 +69,6 @@
             />
 
             <menuitem 
-                id="helpdesk_ticket_tags_menu" 
-                name="Ticket Tags" 
-                sequence="45"
-                action="helpdesk_ticket_tag_action"
-                parent="helpdesk_factorlibre.helpdesk_ticket_main_menu"
-            />
-
-            <menuitem 
                 id="helpdesk_ticket_config_main_menu" 
                 name="Configuration"
                 parent="helpdesk_ticket_main_menu" 
@@ -89,6 +81,14 @@
                 parent="helpdesk_ticket_config_main_menu"
                 action="helpdesk_ticket_team_action" 
                 sequence="35"
+            />
+
+            <menuitem 
+                id="helpdesk_ticket_tags_menu" 
+                name="Ticket Tags" 
+                sequence="45"
+                action="helpdesk_ticket_tag_action"
+                parent="helpdesk_ticket_config_main_menu"
             />
     </data>
 </odoo>
