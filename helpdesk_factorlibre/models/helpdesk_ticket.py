@@ -16,6 +16,9 @@ class HelpdeskTicket(models.Model):
     def _get_default_priority(self):
         return "1"
     
+    def _get_default_stage_id(self):
+        return self.env['helpdesk.ticket.stage'].search([], limit=1).id
+    
     ticket_number = fields.Integer(
         string='Numero de ticket',
         required=True,
@@ -81,6 +84,9 @@ class HelpdeskTicket(models.Model):
     stage_id = fields.Many2one(
         'helpdesk.ticket.stage',
         string='Stage',
+        group_expand='_read_group_stage_ids',
+        default=_get_default_stage_id,
+        track_visibility='onchange',
     )
     
     color = fields.Integer(
@@ -95,8 +101,7 @@ class HelpdeskTicket(models.Model):
     )
     
     team_id = fields.Many2one(
-        'helpdesk.ticket.team',
-        string='Team'
+        'helpdesk.ticket.team'
     )
     
     closed = fields.Boolean(
@@ -137,6 +142,21 @@ class HelpdeskTicket(models.Model):
             
         res = super().create(vals)
         return res
+    
+    @api.multi
+    @api.onchange('team_id', 'user_id')
+    def _onchange_dominion_user_id(self):
+        if self.user_id:
+            if self.user_id and self.user_ids and \
+                    self.user_id not in self.user_ids:
+                self.update({
+                    'user_id': False
+                })
+                return {'domain': {'user_id': []}}
+        if self.team_id:
+            return {'domain': {'user_id': [('id', 'in', self.user_ids.ids)]}}
+        else:
+            return {'domain': {'user_id': []}}
         
     
     

@@ -19,6 +19,8 @@ class HelpdeskTicketTag(models.Model):
     
     color = fields.Integer(string='Color Index')
     
+    active = fields.Boolean(default=True)
+    
     
     
     

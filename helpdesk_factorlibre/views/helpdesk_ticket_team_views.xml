@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>    
-    <record id="view_helpdesk_team_form" model="ir.ui.view">
-        <field name="name">view.helpdesk_team.form</field>
+<odoo>
+    
+    <record id="ticket_team_view_form" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.team.view.form</field>
         <field name="model">helpdesk.ticket.team</field>
         <field name="arch" type="xml">
             <form string="Stages">
@@ -18,24 +19,46 @@
                         <h1><field name="name" required="1"/></h1>
                     </div>
                     <group name="main">
-                        <field name="members" widget="many2one_tags"/>
+                        <field string="Team Id" name="team_id"/>
+                        <field name="user_ids" widget="many2many_tags"/>
                     </group>
-                    <field name="team_id"/>
+                    
                 </sheet>
             </form>
         </field>
     </record>
 
     <record id="view_helpdesk_team_tree" model="ir.ui.view">
-        <field name="name">view.helpdesk_team.tree</field>
+        <field name="name">view.helpdesk.team.tree</field>
         <field name="model">helpdesk.ticket.team</field>
         <field name="arch" type="xml">
             <tree string="Team">
                 <field name="name"/>
-                <field name="team_id"/>
+                <field name="user_ids" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
+
+    
+
+
+    <!--Actions-->
+    <record id="helpdesk_ticket_team_action" model="ir.actions.act_window">
+        <field name="name">Ticket Team</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.ticket.team</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+    
+    <!--Menus-->
+    <menuitem 
+        id="helpdesk_ticket_team_menu" 
+        name="Ticket Teams" 
+        sequence="16"
+        action="helpdesk_factorlibre.helpdesk_ticket_team_action"
+        parent = "helpdesk_factorlibre.helpdesk_ticket_main_menu"
+    />
 
     <record id="view_helpdesk_ticket_team_search" model="ir.ui.view">
         <field name="name">helpdesk.ticket.team.search</field>
@@ -49,25 +72,7 @@
             </search>
         </field>
     </record>
-
-
-    <!--Actions-->
-    <record id="helpdesk_ticket_team_action" model="ir.actions.act_window">
-        <field name="name">Ticket Team</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">helpdesk.ticket.team</field>
-        <field name="view_mode">tree,form</field>
-
-    </record>
-    
-    <!--Menus-->
-    <menuitem 
-        id="helpdesk_ticket_team_menu" 
-        name="Ticket Teams" 
-        sequence="16"
-        action="helpdesk_factorlibre.helpdesk_ticket_team_action"
-        parent = "helpdesk_factorlibre.helpdesk_ticket_main_menu"
-    />
+   
     
 
 </odoo>

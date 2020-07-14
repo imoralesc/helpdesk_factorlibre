@@ -13,17 +13,18 @@ class HelpdeskTeam(models.Model):
 
     name = fields.Char(
         string='Name',
+        required=True
     )
-    
-    team_id = fields.Integer(
-        string='Team',
-    )
-    
-    color = fields.Integer("Color Index", default=0)
     
     user_ids = fields.Many2many(comodel_name='res.users', string='Members')
     
     active = fields.Boolean(default=True)
+    
+    color = fields.Integer("Color Index", default=0)
+    
+    team_id = fields.Many2one(
+        'helpdesk.ticket.team'
+    )
     
     ticket_ids = fields.One2many(
         'helpdesk.ticket',
@@ -65,7 +66,7 @@ class HelpdeskTeam(models.Model):
                     lambda ticket: ticket.unattended))
             record.todo_ticket_count_high_priority = len(
                 record.todo_ticket_ids.filtered(
-                    lambda ticket: ticket.priority == '3'))
+                    lambda ticket: ticket.priority == '2'))
     
     
     

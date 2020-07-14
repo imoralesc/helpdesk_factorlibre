@@ -1,3 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_helpdesk_ticket_user_personal,helpdesk.ticket.user.personal,model_helpdesk_ticket,helpdesk_factorlibre.group_helpdesk_user_own,1,1,1,0
-access_helpdesk_ticket_stage,access_helpdesk_ticket_stage,model_helpdesk_ticket_stage,base.group_user,1,1,1,0
+access_helpdesk_ticket_user_personal,helpdesk.ticket.user.personal,model_helpdesk_ticket,helpdesk_factorlibre.group_helpdesk_user_own,1,1,0,0
