@@ -33,6 +33,7 @@
                 <field name="description" />
                 <field name="stage_id"/>
                 <field name="user_id" />
+                <field name="team_id" />
                 <field name="priority" widget="priority" />
                 <field name="assigned_date" />
                 <field name="closed_date" />
@@ -45,54 +46,62 @@
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
             <form>
-            <header>
-                <button 
-                string="Assing to me" 
-                name="assign_to_me" 
-                type="object" 
-                attrs="{'invisible' : [('user_id', '!=', False)]}"
-                />
-            </header>
-            <sheet>
-                <div class="oe_title">
-                    <h1 class="oe_title">
-                        Ticket:
-                        <field name="ticket_number" />
-                    </h1>
-                    <h2 class="oe_title">
-                        Titulo:
-                        <field name="name" />
-                    </h2>
+                <header>
+                    <button 
+                    string="Assing to me" 
+                    name="assign_to_me" 
+                    type="object" 
+                    attrs="{'invisible' : [('user_id', '!=', False)]}"
+                    />
+                    <field name="stage_id" widget="statusbar" clickable="True"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="oe_title">
+                            Ticket:
+                            <field name="ticket_number" />
+                        </h1>
+                        <h2 class="oe_title">
+                            Titulo:
+                            <field name="name" />
+                        </h2>
+                    </div>
+                    <group>
+                        <xpath expr="//field[@name='user_id']" position="after">
+                            <h3 class="oe_title">
+                                Team:
+                                <field name="team_id"/>
+                            </h3>
+                        </xpath>
+                    </group>
+                    <group>
+                        <field name="user_id" />
+                    </group>
+                    <group>
+                        <field name="description" />
+                    </group>
+                    <group>
+                        <field name="user_ids" invisible="1" readonly="1" />
+                        <group>
+                            <field name="assigned_date" />
+                            <field name="closed_date" />
+                            <field name="partner_id" />
+                            <field name="customer_name" />
+                            <field name="customer_email" />
+                        </group>
+                        <group>
+                            <field name="priority" widget="priority" />
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    
+                </sheet>
+                <!--Widget Mensajeria-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
                 </div>
-                <group>
-                    <field name="team_id" options='{"always_reload": True}'/>
-                    <field name="user_id" />
-                </group>
-                <group>
-                    <field name="description" />
-                </group>
-                <group>
-                    <field name="user_ids" invisible="1" readonly="1" />
-                    <group>
-                        <field name="assigned_date" />
-                        <field name="closed_date" />
-                        <field name="partner_id" />
-                        <field name="customer_name" />
-                        <field name="customer_email" />
-                    </group>
-                    <group>
-                        <field name="priority" widget="priority" />
-                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
-                    </group>
-                </group>
-                
-            </sheet>
-            <!--Widget Mensajeria-->
-            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <field name="activity_ids" widget="mail_activity"/>
-                <field name="message_ids" widget="mail_thread"/>
-            </div>
             </form>
         </field>
     </record>

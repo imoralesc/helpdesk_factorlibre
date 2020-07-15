@@ -10,6 +10,7 @@ class HelpdeskTeam(models.Model):
 
     _name = 'helpdesk.ticket.team'
     _description = 'Helpdesk Ticket Team'
+    _order = 'sequence, id'
 
     name = fields.Char(
         string='Name',
@@ -21,6 +22,8 @@ class HelpdeskTeam(models.Model):
     active = fields.Boolean(default=True)
     
     color = fields.Integer("Color Index", default=0)
+    
+    sequence = fields.Integer(default=1)
     
     team_id = fields.Many2one(
         'helpdesk.ticket.team'
@@ -68,8 +71,9 @@ class HelpdeskTeam(models.Model):
                 record.todo_ticket_ids.filtered(
                     lambda ticket: ticket.priority == '2'))
     
-    
-    
+          
+            
+                
     
         
     

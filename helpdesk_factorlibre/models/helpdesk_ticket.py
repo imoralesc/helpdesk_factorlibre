@@ -19,6 +19,13 @@ class HelpdeskTicket(models.Model):
     def _get_default_stage_id(self):
         return self.env['helpdesk.ticket.stage'].search([], limit=1).id
     
+    def _get_default_team_id(self):
+        return self.env['helpdesk.ticket.team'].search([], limit=1).id
+
+    def _get_default_partner_id(self):
+        return self.env.user.partner_id
+    
+    
     ticket_number = fields.Integer(
         string='Numero de ticket',
         required=True,
@@ -73,6 +80,7 @@ class HelpdeskTicket(models.Model):
         string='Customer',
         comodel_name='res.partner',
         ondelete='restrict',
+        default=_get_default_partner_id
     )
     
     
@@ -101,7 +109,9 @@ class HelpdeskTicket(models.Model):
     )
     
     team_id = fields.Many2one(
-        'helpdesk.ticket.team'
+        'helpdesk.ticket.team',
+        default=_get_default_team_id,
+        ondelete='restrict'
     )
     
     closed = fields.Boolean(
@@ -158,6 +168,31 @@ class HelpdeskTicket(models.Model):
         else:
             return {'domain': {'user_id': []}}
         
+    
+    @api.multi 
+    @api.onchange('team_id')
+    def onchange_team_id(self):
+        for record in self:
+            least_open_tickets_users = self.env['res.users'].search(
+                [('team_id', '=', record.team_id.id)], order='count_open_tickets asc', limit=1
+            )
+            
+            if record.team_id.id not in [team.id for team in record.user_id.team_ids]:
+                record.update({
+                    'user_id': least_open_tickets_users.id
+                })
+    
+    @api.multi
+    @api.onchange('user_id')
+    def onchange_user_id(self):
+        for record in self:
+            user_first_team = self.env['helpdesk.ticket.team'].search(
+                [('user_ids', '=', record.user_id.id)], limit=1)
+            if user_first_team:
+                record.update({
+                    'team_id': user_first_team.id
+                })
+    
     
     
         

@@ -19,7 +19,7 @@
                         <h1><field name="name" required="1"/></h1>
                     </div>
                     <group name="main">
-                        <field string="Team Id" name="team_id"/>
+                        <field string="Team" name="team_id"/>
                         <field name="user_ids" widget="many2many_tags"/>
                     </group>
                     
@@ -40,7 +40,18 @@
     </record>
 
     
-
+    <record id="view_helpdesk_ticket_team_search" model="ir.ui.view">
+        <field name="name">view.helpdesk.ticket.team.search</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="arch" type="xml">
+            <search string="Helpdesk Team Search">
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+            <separator/>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="user_ids" string="User" filter_domain="[('user_ids', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
 
     <!--Actions-->
     <record id="helpdesk_ticket_team_action" model="ir.actions.act_window">
@@ -59,20 +70,5 @@
         action="helpdesk_factorlibre.helpdesk_ticket_team_action"
         parent = "helpdesk_factorlibre.helpdesk_ticket_main_menu"
     />
-
-    <record id="view_helpdesk_ticket_team_search" model="ir.ui.view">
-        <field name="name">helpdesk.ticket.team.search</field>
-        <field name="model">helpdesk.ticket.team</field>
-        <field name="arch" type="xml">
-            <search string="Helpdesk Team Search">
-                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
-                <separator/>
-                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
-                <field name="user_ids" string="User" filter_domain="[('user_ids', 'ilike', self)]"/>
-            </search>
-        </field>
-    </record>
-   
-    
 
 </odoo>

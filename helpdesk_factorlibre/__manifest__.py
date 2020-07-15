@@ -17,6 +17,7 @@
         'views/helpdesk_ticket_tag_views.xml',
         'views/inherit_res_partners_views.xml',
         'views/helpdesk_ticket_stage_views.xml',
+        'views/helpdesk_ticket_team_views.xml',
         'views/heldesk_dashboard_views.xml',
         'views/helpdesk_ticket_menu.xml',
         'security/helpdesk_security.xml',
